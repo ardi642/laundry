@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+
+<body>
+  <select id="mySelect2" x-data="{keyId: 'id_label', keyText: 'label', 
+  options: $store.options, optionSelected: $store.state.optionSelected,
+  handleInit: handleInit}" x-init="handleInit">
+  <!-- jika inisialisasi options secara manual maka uncomment kode di bawah ini -->
+    <template x-for="option in options">
+      <option :value="option[keyId]" x-text="option[keyText]"></option>
+    </template>
+  </select>
+</body>
+<script>
+
+  function handleInit() {
+
+    // mengupdate optionSelected berdasarkan option yang dipilih
+    function handleOptionSelected(e) {
+      let data = $(this.$el).select2('data')[0] || null;
+      if (data == null){
+        this.optionSelected[this.keyId] = null;
+        this.optionSelected[this.keyText] = null;
+      }   
+      else {
+        this.optionSelected[this.keyId] = data.id;
+        this.optionSelected[this.keyText] = data.text;
+      }
+      
+    }
+
+    // mengupdate option yang dipilih berdasarkan perubahan optionSelected
+    function handleSelectedIdModified(options) {
+      // console.log('selected : ', this.optionSelected.id);
+      // return;
+      if (this.optionSelected[this.keyId] == null) {
+        $(this.$el).val(null).trigger('change');
+        return;
+      }
+
+      // uncomment kode di bawah jika inisialisasi options secara manual
+      $(this.$el).val(this.optionSelected[this.keyId]).trigger('change');
+
+
+      // let keyId = this.keyId;
+      // let keyText = this.keyText;
+      // let optionSelected = this.options.filter(function(option) {
+      //   return option[keyId] === this.optionSelected.id;
+      // })
+      // let option = new Option(optionSelected[keyText], optionSelected[keyId], true, true);
+      // $(this.$el).empty().append(option);
+    }
+
+    // mengupdate optionSelected berdasarkan option yang dipilih
+    let that = this;
+    $(this.$el).on('change', function(e) {
+      handleOptionSelected.bind(that)(e);
+    })
+
+    this.$watch('options', (options) => {
+      // mengupdate option yang dipilih berdasarkan perubahan optionSelected
+      handleSelectedIdModified.bind(this)(this.options);
+    })
+
+    this.$watch('optionSelected', (options) => {
+      // mengupdate option yang dipilih berdasarkan perubahan optionSelected
+      handleSelectedIdModified.bind(this)(this.options);
+    })
+
+    // inisialisasi isi option secara manual atau melalui pemanggilan ajax select2
+    this.$nextTick(() => { 
+      $(this.$el).select2({
+        allowClear: true,
+        placeholder: 'pilih options'
+      });
+
+      // mengupdate option yang dipilih berdasarkan perubahan optionSelected
+      handleSelectedIdModified.bind(this)(this.options);
+
+  });
+  }
+
+  document.addEventListener('alpine:init', () => {
+    Alpine.store('options', [
+      {
+        id_label: 0,
+        label: 'merah'
+      },
+      {
+        id_label: 1,
+        label: 'kuning'
+      },
+      {
+        id_label: 2,
+        label: 'hijau'
+      }
+    ])
+    Alpine.store('state', {
+      optionSelected: {
+        id_label: null,
+        label: null
+      }
+    })
+  })
+</script>
+
+</html>
