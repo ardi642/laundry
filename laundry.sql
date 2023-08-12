@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 05, 2023 at 10:43 AM
+-- Generation Time: Aug 12, 2023 at 06:17 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -63,8 +63,8 @@ CREATE TABLE `karyawan` (
 --
 
 INSERT INTO `karyawan` (`id_karyawan`, `username`, `password`, `nama_karyawan`, `no_telepon`, `email`, `level`, `alamat`) VALUES
-(2, 'admin', '$2a$10$SmFtucwDkU51VG0I6ckr3.CtTPRufmrCjgTfip0LQt9CRtQJPNFTi', 'admin', NULL, NULL, 'admin', NULL),
-(3, 'karyawan', '$2y$10$q.VSMKIm8dHwuN0JN4j5F.7LqJSE3UB26AGsfHdcd5cEyo2zK/PjO', 'karyawan', '', '', 'karyawan', '');
+(2, 'admin', '$2a$10$SmFtucwDkU51VG0I6ckr3.CtTPRufmrCjgTfip0LQt9CRtQJPNFTi', 'admin', '08111111111', 'admin@gmail.com', 'admin', 'yogyakarta'),
+(3, 'karyawan', '$2y$10$q.VSMKIm8dHwuN0JN4j5F.7LqJSE3UB26AGsfHdcd5cEyo2zK/PjO', 'karyawan', '0812345678', 'karyawan@gmail.com', 'karyawan', 'yogyakarta');
 
 -- --------------------------------------------------------
 
@@ -126,7 +126,7 @@ CREATE TABLE `paket` (
 
 INSERT INTO `paket` (`id_paket`, `nama_paket`, `id_jenis_paket`, `waktu_kerja_jam`, `waktu_kerja_hari`, `satuan`, `tarif_satuan`, `minimal_satuan`, `keterangan`) VALUES
 (2, 'dry clean kilat', 2, 2, 2, 'kg', 8000, 2, ''),
-(3, 'Jaket Kulit', 4, 0, 1, 'pcs', 15000, 1, ''),
+(3, 'Jaket Kulit', 4, 0, 2, 'pcs', 15000, 1, ''),
 (4, 'Komplit busa express', 3, 0, 1, 'kg', 5000, 1, ''),
 (5, 'Kasur', 4, 2, 3, 'pcs', 20000, 1, '');
 
@@ -176,7 +176,7 @@ ALTER TABLE `jenis_paket`
 -- AUTO_INCREMENT for table `karyawan`
 --
 ALTER TABLE `karyawan`
-  MODIFY `id_karyawan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_karyawan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `order`
